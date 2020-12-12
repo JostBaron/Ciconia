@@ -21,7 +21,7 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function renderParagraph($content, array $options = array())
+    public function renderParagraph($content, array $options = [])
     {
         $options = $this->createResolver()->resolve($options);
 
@@ -37,11 +37,11 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function renderHeader($content, array $options = array())
+    public function renderHeader($content, array $options = [])
     {
         $options = $this->createResolver()
             ->setRequired(['level'])
-            ->setAllowedValues(['level' => [1, 2, 3, 4, 5, 6]])
+            ->setAllowedValues('level', [1, 2, 3, 4, 5, 6])
             ->resolve($options);
 
         $tag = new Tag('h' . $options['level']);
@@ -56,7 +56,7 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function renderCodeBlock($content, array $options = array())
+    public function renderCodeBlock($content, array $options = [])
     {
         if (!$content instanceof Text) {
             $content = new Text($content);
@@ -80,7 +80,7 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function renderCodeSpan($content, array $options = array())
+    public function renderCodeSpan($content, array $options = [])
     {
         $tag = new Tag('code');
         $tag->setType(Tag::TYPE_INLINE);
@@ -97,12 +97,13 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
      *
      * @return string
      */
-    public function renderLink($content, array $options = array())
+    public function renderLink($content, array $options = [])
     {
         $options = $this->createResolver()
-            ->setRequired(array('href'))
-            ->setDefaults(array('href' => '#', 'title' => ''))
-            ->setAllowedTypes(array('href' => 'string', 'title' => 'string'))
+            ->setRequired(['href'])
+            ->setDefaults(['href' => '#', 'title' => ''])
+            ->setAllowedTypes('href', ['string'])
+            ->setAllowedTypes('title', ['string'])
             ->resolve($options);
 
         $tag = new Tag('a');
@@ -121,7 +122,7 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function renderBlockQuote($content, array $options = array())
+    public function renderBlockQuote($content, array $options = [])
     {
         $tag = Tag::create('blockquote')
             ->setText($content->wrap("\n", "\n"));
@@ -134,16 +135,16 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function renderList($content, array $options = array())
+    public function renderList($content, array $options = [])
     {
         if (!$content instanceof Text) {
             $content = new Text($content);
         }
 
         $options = $this->createResolver()
-            ->setRequired(array('type'))
-            ->setAllowedValues(array('type' => array('ul', 'ol')))
-            ->setDefaults(array('type' => 'ul'))
+            ->setRequired(['type'])
+            ->setAllowedValues(['type' => ['ul', 'ol']])
+            ->setDefaults(['type' => 'ul'])
             ->resolve($options);
 
         $tag = new Tag($options['type']);
@@ -158,7 +159,7 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function renderListItem($content, array $options = array())
+    public function renderListItem($content, array $options = [])
     {
         $tag = Tag::create('li')
             ->setText($content);
@@ -171,7 +172,7 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function renderHorizontalRule(array $options = array())
+    public function renderHorizontalRule(array $options = [])
     {
         $tag = Tag::create('hr')
             ->setType(Tag::TYPE_INLINE)
@@ -185,7 +186,7 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function renderImage($src, array $options = array())
+    public function renderImage($src, array $options = [])
     {
         $options = $this->createResolver()->resolve($options);
 
@@ -204,7 +205,7 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function renderBoldText($text, array $options = array())
+    public function renderBoldText($text, array $options = [])
     {
         $tag = Tag::create('strong')
             ->setText($text);
@@ -217,7 +218,7 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function renderItalicText($text, array $options = array())
+    public function renderItalicText($text, array $options = [])
     {
         $tag = Tag::create('em')
             ->setText($text);
@@ -230,7 +231,7 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function renderLineBreak(array $options = array())
+    public function renderLineBreak(array $options = [])
     {
         $tag = Tag::create('br')
             ->setType(Tag::TYPE_INLINE)
@@ -244,7 +245,7 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function renderTag($tagName, $content, $tagType = Tag::TYPE_BLOCK, array $options = array())
+    public function renderTag($tagName, $content, $tagType = Tag::TYPE_BLOCK, array $options = [])
     {
         $options = $this->createResolver()->resolve($options);
 
@@ -264,8 +265,8 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     protected function createResolver()
     {
         $resolver = new OptionsResolver();
-        $resolver->setDefaults(array('attr' => array()));
-        $resolver->setAllowedTypes(array('attr' => 'array'));
+        $resolver->setDefaults(['attr' => []]);
+        $resolver->setAllowedTypes('attr', ['array']);
 
         return $resolver;
     }
@@ -277,5 +278,4 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
     {
         return '>';
     }
-
 }

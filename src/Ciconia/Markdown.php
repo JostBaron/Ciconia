@@ -123,29 +123,32 @@ class Markdown implements EmitterInterface
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    protected function setDefaultOptions(OptionsResolverInterface $resolver)
+    protected function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'tabWidth'       => 4,
             'nestedTagLevel' => 3,
             'strict'         => false,
             'pygments'       => false
-        ));
+        ]);
 
-        $resolver->setAllowedTypes(array(
-            'tabWidth'       => 'integer',
-            'nestedTagLevel' => 'integer',
-            'strict'         => 'bool',
-            'pygments'       => 'bool'
-        ));
+        $allowedTypes = [
+            'tabWidth'       => ['integer'],
+            'nestedTagLevel' => ['integer'],
+            'strict'         => ['bool'],
+            'pygments'       => ['bool'],
+        ];
+        foreach ($allowedTypes as $name => $types) {
+            $resolver->setAllowedTypes($name, $types);
+        }
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function buildParameters(array $parameters = array())
+    protected function buildParameters(array $parameters = [])
     {
         $parameters[] = $this->options;
 
@@ -157,7 +160,7 @@ class Markdown implements EmitterInterface
      *
      * @return array
      */
-    private function parseOptions(array $options = array())
+    private function parseOptions(array $options = [])
     {
         $this->setDefaultOptions($resolver = new OptionsResolver());
 
