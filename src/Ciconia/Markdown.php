@@ -163,5 +163,4 @@ class Markdown implements EmitterInterface
 
         return $resolver->resolve($options);
     }
-
 }
