@@ -1,6 +1,6 @@
 {
     "name": "jbaron/ciconia",
-    "description": "The Markdown parser for PHP5.4",
+    "description": "Markdown parser",
     "keywords": ["markdown", "parser", "cli"],
     "license": "MIT",
     "authors": [
@@ -30,11 +30,5 @@
     },
     "suggest": {
         "kzykhys/pygments": ">=1.0"
-    },
-    "bin": ["bin/ciconia"],
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.1.x-dev"
-        }
     }
 }
