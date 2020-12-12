@@ -20,8 +20,8 @@
         }
     },
     "require": {
-        "php": ">5.4.0",
-        "symfony/options-resolver": "*"
+        "php": "^7.2",
+        "symfony/options-resolver": "^5.2"
     },
     "require-dev": {
         "symfony/finder": ">=2.3,<2.5-dev",
