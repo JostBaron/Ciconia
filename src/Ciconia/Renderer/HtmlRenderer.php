@@ -143,7 +143,7 @@ class HtmlRenderer implements RendererInterface, EmitterAwareInterface
 
         $options = $this->createResolver()
             ->setRequired(['type'])
-            ->setAllowedValues(['type' => ['ul', 'ol']])
+            ->setAllowedValues('type', ['ul', 'ol'])
             ->setDefaults(['type' => 'ul'])
             ->resolve($options);
 
